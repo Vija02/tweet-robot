@@ -3,6 +3,19 @@
 version = 3
 
 [[package]]
+name = "TweetRobot"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "egg-mode",
+ "rocket",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "ahash"
 version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1806,19 +1819,6 @@ name = "try-lock"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59547bce71d9c38b83d9c0e92b6066c4253371f15005def0c30d9657f50c7642"
-
-[[package]]
-name = "twitter_test"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "egg-mode",
- "rocket",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
-]
 
 [[package]]
 name = "typenum"
