@@ -1,6 +1,11 @@
+export type SingleTweetData = {
+  text: string;
+};
+export type TweetDraftData = SingleTweetData[];
+
 export type TweetDraft = {
   id: number;
-  data: Record<string, any>;
+  data: TweetDraftData;
   created_at: Date;
   updated_at: Date;
 };

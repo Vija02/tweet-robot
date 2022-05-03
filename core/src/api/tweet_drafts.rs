@@ -6,7 +6,7 @@ use rusqlite::params;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TweetDrafts {
   id: usize,
-  data: String,
+  data: serde_json::Value,
   created_at: NaiveDateTime,
   updated_at: NaiveDateTime,
 }
@@ -24,7 +24,7 @@ pub fn get_tweet_drafts() -> Json<Vec<TweetDrafts>> {
     .query_map([], |row| {
       Ok(TweetDrafts {
         id: row.get(0)?,
-        data: row.get(1)?,
+        data: serde_json::from_str(&row.get::<usize, String>(1)?).unwrap(),
         created_at: NaiveDateTime::parse_from_str(
           &row.get_unwrap::<usize, String>(2),
           "%Y-%m-%d %H:%M:%S",
