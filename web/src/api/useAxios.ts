@@ -1,16 +1,16 @@
-import axios, { AxiosError } from "axios"
+import axios, { AxiosError } from "axios";
 
 const errorFunction = function (error: AxiosError) {
-	return Promise.reject(error)
-}
+  return Promise.reject(error);
+};
 
 // TODO: Handle API URL
-const baseURL = "http://127.0.0.1:8000"
+const baseURL = "http://127.0.0.1:8000";
 
 export default () => {
-	const instance = axios.create({
-		baseURL: baseURL,
-	})
+  const instance = axios.create({
+    baseURL: baseURL,
+  });
 
   instance.interceptors.response.use(
     function (response) {
@@ -21,5 +21,5 @@ export default () => {
     }
   );
 
-	return instance
-}
+  return instance;
+};
