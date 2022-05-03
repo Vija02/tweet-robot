@@ -9,11 +9,22 @@ const theme = extendTheme({
   colors: {
     primary: "rgb(231, 233, 234)",
     secondary: "rgb(113, 118, 123)",
+    blue: "rgb(29, 155, 240)",
+    blueSecondary: "rgb(26, 140, 216)",
   },
   components: {
     Text: {
       baseStyle: {
         color: "primary",
+      },
+    },
+    Button: {
+      variants: {
+        solid: {
+          bg: "blue",
+          color: "primary",
+          _hover: { bg: "blueSecondary", color: "primary" },
+        },
       },
     },
   },

@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -22,5 +23,9 @@ export default function MainDraftBody({
     onUpdate(debouncedTweets);
   }, [debouncedTweets]);
 
-  return <TweetDraftBox tweets={tweets} setTweets={setTweets} />;
+  return (
+    <Box my={8}>
+      <TweetDraftBox tweets={tweets} setTweets={setTweets} />
+    </Box>
+  );
 }

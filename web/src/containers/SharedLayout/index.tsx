@@ -23,6 +23,9 @@ export default function SharedLayout() {
   return (
     <Flex minH="100vh" alignItems="stretch">
       <Box w="300px" borderRight="1px solid" borderColor="gray.700">
+        <Text fontWeight="bold" py={4} px={4} borderBottom="1px solid" borderColor="gray.800" textAlign="center" fontSize="xl">
+          Drafts
+        </Text>
         {data?.map((d, i) => {
           const id = d.id;
           const bodyText = d.data[0].text !== "" ? d.data[0].text : "<Empty>";
@@ -45,7 +48,11 @@ export default function SharedLayout() {
           );
         })}
 
-        <Button onClick={addDraft}>Add Draft</Button>
+        <Flex>
+          <Button m={2} flex={1} onClick={addDraft}>
+            Add Draft
+          </Button>
+        </Flex>
       </Box>
       <Box flex={1}>
         <Outlet />
