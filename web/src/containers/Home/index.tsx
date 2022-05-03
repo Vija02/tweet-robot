@@ -1,7 +1,13 @@
 import React from "react";
 
-import TweetBox from "components/TweetBox";
+import TweetDraftBox from "components/TweetDraftBox";
+
+import useCreateTweetDraft from "api/tweetDrafts/useCreateTweetDraft";
 
 export default function HomeIndex() {
-  return <TweetBox />;
+  const { mutate } = useCreateTweetDraft();
+
+  return (
+    <TweetDraftBox onSubmit={(tweetDraftData) => mutate(tweetDraftData)} />
+  );
 }
