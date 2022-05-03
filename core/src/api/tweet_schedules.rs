@@ -91,7 +91,7 @@ pub fn put_tweet_schedules(id: usize, tweet_schedule: Json<PutTweetSchedulesInpu
   conn
     .execute(
       "UPDATE tweet_schedules SET tweet_draft_id=?1, date_scheduled=?2, updated_at=datetime('now') WHERE id=?2",
-      params![tweet_draft_id, date_scheduled.timestamp()],
+      params![tweet_draft_id, date_scheduled.timestamp(), id],
     )
     .unwrap();
 

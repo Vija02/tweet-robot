@@ -1,5 +1,5 @@
 [package]
-name = "TweetRobot"
+name = "tweet_robot"
 version = "0.1.0"
 authors = ["Michael Salim <salim_michaelmi@yahoo.com>"]
 edition = "2018"

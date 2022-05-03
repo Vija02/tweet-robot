@@ -4,6 +4,7 @@ use rusqlite::Result;
 
 mod api;
 mod db;
+mod twitter_api;
 
 async fn init_app() -> Result<()> {
     // Initialize the Database
@@ -31,7 +32,8 @@ async fn main() -> Result<(), rocket::Error> {
                 api::tweet_schedules::get_tweet_schedules,
                 api::tweet_schedules::post_tweet_schedules,
                 api::tweet_schedules::put_tweet_schedules,
-                api::tweet_schedules::delete_tweet_schedules
+                api::tweet_schedules::delete_tweet_schedules,
+                api::twitter_user::me
             ],
         )
         .launch()
