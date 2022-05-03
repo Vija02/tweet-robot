@@ -1,4 +1,4 @@
-import { Box, Button, chakra, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, chakra, Flex, Image, Text } from "@chakra-ui/react";
 import { useUser } from "contexts/User";
 import React from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -8,16 +8,11 @@ import { SingleTweetData } from "api/types";
 const Textarea = chakra(TextareaAutosize);
 
 type TweetBoxPropTypes = {
-  onSubmit: (singleTweet: SingleTweetData) => void;
-  tweetBody: string;
-  setTweetBody: React.Dispatch<React.SetStateAction<string>>;
+  tweet: SingleTweetData;
+  setTweet: React.Dispatch<React.SetStateAction<SingleTweetData>>;
 };
 
-export default function TweetBox({
-  onSubmit,
-  tweetBody,
-  setTweetBody,
-}: TweetBoxPropTypes) {
+export default function TweetBox({ tweet, setTweet }: TweetBoxPropTypes) {
   const { user } = useUser();
 
   return (
@@ -49,12 +44,13 @@ export default function TweetBox({
             resize="none"
             minRows={3}
             w="100%"
-            value={tweetBody}
-            onChange={(e) => setTweetBody(e.target.value)}
+            value={tweet.text}
+            onChange={(e) =>
+              setTweet((val) => ({ ...val, text: e.target.value }))
+            }
           />
         </Box>
       </Flex>
-      <Button onClick={() => onSubmit({ text: tweetBody })}>Submit</Button>
     </Box>
   );
 }

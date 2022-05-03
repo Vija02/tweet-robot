@@ -1,26 +1,41 @@
-import { Box } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, Button } from "@chakra-ui/react";
+import produce from "immer";
+import React from "react";
+import callFunctionOrReturn from "utils/callFunctionOrReturn";
 
 import TweetBox from "components/TweetBox";
 
-import { TweetDraftData } from "api/types";
+import { SingleTweetData, TweetDraftData } from "api/types";
 
 type TweetDraftBoxPropTypes = {
-  onSubmit: (tweetDraftData: TweetDraftData) => void;
+  tweets: TweetDraftData;
+  setTweets: React.Dispatch<React.SetStateAction<TweetDraftData>>;
 };
 
-export default function TweetDraftBox({ onSubmit }: TweetDraftBoxPropTypes) {
-  const [tweetBody, setTweetBody] = useState("");
+export default function TweetDraftBox({
+  tweets,
+  setTweets,
+}: TweetDraftBoxPropTypes) {
+  const addTweet = () => {
+    setTweets((oldTweets) => oldTweets.concat({ text: "" }));
+  };
 
   return (
     <Box>
-      <TweetBox
-        onSubmit={(tweet) => {
-          onSubmit([tweet]);
-        }}
-        tweetBody={tweetBody}
-        setTweetBody={setTweetBody}
-      />
+      {tweets.map((tweet, i) => {
+        const setTweet = (
+          newTweet:
+            | SingleTweetData
+            | ((oldData: SingleTweetData) => SingleTweetData)
+        ) => {
+          const newTweets = produce(tweets, (draftState) => {
+            draftState[i] = callFunctionOrReturn(newTweet, tweet);
+          });
+          setTweets(newTweets);
+        };
+        return <TweetBox key={i} tweet={tweet} setTweet={setTweet} />;
+      })}
+      <Button onClick={addTweet}>Add tweet</Button>
     </Box>
   );
 }
