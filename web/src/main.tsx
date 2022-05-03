@@ -10,7 +10,13 @@ import theme from "./theme"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { UserProvider } from "contexts/User"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+})
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
