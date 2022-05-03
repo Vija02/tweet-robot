@@ -8,7 +8,7 @@ export function useAllTweetDrafts() {
   const axios = useAxios();
 
   return useQuery<TweetDraft[], AxiosError>(["allTweetDrafts"], async () => {
-    const response = await axios(`/api/tweet-drafts`);
+    const response = await axios(`/api/tweet_drafts`);
     return response.data;
   });
 }

@@ -10,7 +10,7 @@ export function useAllTweetSchedules() {
   return useQuery<TweetSchedule[], AxiosError>(
     ["allTweetSchedules"],
     async () => {
-      const response = await axios(`/api/tweet-schedules`);
+      const response = await axios(`/api/tweet_schedules`);
       return response.data;
     }
   );
