@@ -53,21 +53,30 @@ pub struct PostTweetDraftsInput {
   // If there are multiple object in the array, we will create a thread
   data: String,
 }
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PostTweetDraftsResponse {
+  id: usize,
+}
 
 #[post("/api/tweet_drafts", format = "json", data = "<tweet_draft>")]
-pub fn post_tweet_drafts(tweet_draft: Json<PostTweetDraftsInput>) -> String {
+pub fn post_tweet_drafts(tweet_draft: Json<PostTweetDraftsInput>) -> Json<PostTweetDraftsResponse> {
   let conn = db::get_db_connection().unwrap();
 
   let json_string_data = &tweet_draft.data;
 
-  conn
-    .execute(
-      "INSERT INTO tweet_drafts (data) values (?1)",
+  let added_tweet = conn
+    .query_row(
+      "INSERT INTO tweet_drafts (data) VALUES (?1) RETURNING id",
       params![json_string_data],
+      |row| {
+        Ok(PostTweetDraftsResponse {
+          id: row.get::<usize, usize>(0)?,
+        })
+      },
     )
     .unwrap();
 
-  format!("Ok")
+  Json(added_tweet)
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -96,10 +105,7 @@ pub fn delete_tweet_drafts(id: usize) -> String {
   let conn = db::get_db_connection().unwrap();
 
   conn
-    .execute(
-      "DELETE FROM tweet_drafts WHERE id=?1",
-      params![id],
-    )
+    .execute("DELETE FROM tweet_drafts WHERE id=?1", params![id])
     .unwrap();
 
   format!("Ok")
