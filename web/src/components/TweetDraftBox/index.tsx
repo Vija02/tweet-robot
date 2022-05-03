@@ -33,7 +33,14 @@ export default function TweetDraftBox({
           });
           setTweets(newTweets);
         };
-        return <TweetBox key={i} tweet={tweet} setTweet={setTweet} />;
+        return (
+          <TweetBox
+            key={i}
+            tweet={tweet}
+            setTweet={setTweet}
+            showLine={i !== tweets.length - 1}
+          />
+        );
       })}
       <Button onClick={addTweet}>Add tweet</Button>
     </Box>
