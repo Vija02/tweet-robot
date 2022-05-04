@@ -17,7 +17,13 @@ export default function MainDraftBody({
 }: MainDraftBodyPropTypes) {
   const [tweets, setTweets] = useState(initialTweets);
 
-  const [debouncedTweets] = useDebounce(tweets, 1000);
+  const [debouncedTweets, controls] = useDebounce(tweets, 1000);
+
+  useEffect(() => {
+    if (tweets.length === 0) {
+      controls.flush();
+    }
+  }, [tweets]);
 
   useEffect(() => {
     onUpdate(debouncedTweets);

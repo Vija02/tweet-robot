@@ -1,6 +1,7 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import produce from "immer";
 import React from "react";
+import arrayInsert from "utils/arrayInsert";
 import callFunctionOrReturn from "utils/callFunctionOrReturn";
 
 import TweetBox from "components/TweetBox";
@@ -16,8 +17,11 @@ export default function TweetDraftBox({
   tweets,
   setTweets,
 }: TweetDraftBoxPropTypes) {
-  const addTweet = () => {
-    setTweets((oldTweets) => oldTweets.concat({ text: "" }));
+  const addTweet = (index: number) => {
+    setTweets((oldTweets) => arrayInsert(oldTweets, index, { text: "" }));
+  };
+  const deleteTweet = (index: number) => {
+    setTweets((oldTweets) => oldTweets.filter((t, i) => i !== index));
   };
 
   return (
@@ -39,10 +43,11 @@ export default function TweetDraftBox({
             tweet={tweet}
             setTweet={setTweet}
             showLine={i !== tweets.length - 1}
+            onAddTweet={() => addTweet(i + 1)}
+            onDeleteTweet={() => deleteTweet(i)}
           />
         );
       })}
-      <Button onClick={addTweet}>Add tweet</Button>
     </Box>
   );
 }

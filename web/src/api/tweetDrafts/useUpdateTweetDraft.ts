@@ -7,7 +7,7 @@ import useAxios from "api/useAxios";
 export default function useUpdateTweetDraft(
   id: number,
   extraProps?: UseMutationOptions<
-    AxiosResponse<TweetDraftData>,
+    AxiosResponse<string>,
     AxiosError<any>,
     TweetDraftData
   >
@@ -15,23 +15,22 @@ export default function useUpdateTweetDraft(
   const axios = useAxios();
   const queryClient = useQueryClient();
 
-  return useMutation<
-    AxiosResponse<TweetDraftData>,
-    AxiosError<any>,
-    TweetDraftData
-  >((tweetDraftData) => updateTweetDraft(axios, id, tweetDraftData), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("allTweetDrafts");
-    },
-    ...extraProps,
-  });
+  return useMutation<AxiosResponse<string>, AxiosError<any>, TweetDraftData>(
+    (tweetDraftData) => updateTweetDraft(axios, id, tweetDraftData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("allTweetDrafts");
+      },
+      ...extraProps,
+    }
+  );
 }
 
 export const updateTweetDraft = async (
   axios: AxiosInstance,
   id: number,
   tweetDraftData: TweetDraftData
-): Promise<AxiosResponse<TweetDraftData>> => {
+): Promise<AxiosResponse<string>> => {
   return await axios.put(`/api/tweet_drafts?id=${id}`, {
     data: JSON.stringify(tweetDraftData),
   });

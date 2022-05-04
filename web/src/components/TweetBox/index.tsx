@@ -1,24 +1,39 @@
-import { Box, chakra, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, chakra, Flex, Image, Text, Tooltip } from "@chakra-ui/react";
 import { useUser } from "contexts/User";
 import React from "react";
+import {
+  BiAddToQueue as BiAddToQueueRaw,
+  BiTrashAlt as BiTrashAltRaw,
+} from "react-icons/bi";
 import TextareaAutosize from "react-textarea-autosize";
+import twitterText from "twitter-text";
 
 import { SingleTweetData } from "api/types";
 
+import CircleIndicator from "./CircleIndicator";
+
+const BiAddToQueue = chakra(BiAddToQueueRaw);
+const BiTrashAlt = chakra(BiTrashAltRaw);
 const Textarea = chakra(TextareaAutosize);
 
 type TweetBoxPropTypes = {
   tweet: SingleTweetData;
   setTweet: React.Dispatch<React.SetStateAction<SingleTweetData>>;
   showLine?: boolean;
+  onAddTweet: () => void;
+  onDeleteTweet: () => void;
 };
 
 export default function TweetBox({
   tweet,
   setTweet,
   showLine,
+  onAddTweet,
+  onDeleteTweet,
 }: TweetBoxPropTypes) {
   const { user } = useUser();
+
+  const parseResult = twitterText.parseTweet(tweet.text);
 
   return (
     <Box maxW="600px" margin="auto">
@@ -39,7 +54,7 @@ export default function TweetBox({
             />
           )}
         </Flex>
-        <Box>
+        <Box flex={1}>
           <Flex>
             <Text color="primary" fontSize="15px" as="b">
               {user?.name}{" "}
@@ -56,13 +71,26 @@ export default function TweetBox({
             _focusVisible={{ outline: "none" }}
             background="transparent"
             resize="none"
-            minRows={3}
+            minRows={2}
             w="100%"
             value={tweet.text}
             onChange={(e) =>
               setTweet((val) => ({ ...val, text: e.target.value }))
             }
           />
+          <Flex gap={4} justifyContent="flex-end">
+            <CircleIndicator letterCount={parseResult.weightedLength} />
+            <Tooltip label="Add tweet to thread">
+              <Box cursor="pointer" onClick={onAddTweet}>
+                <BiAddToQueue width="20px" height="20px" color="blue" />
+              </Box>
+            </Tooltip>
+            <Tooltip label="Delete tweet from thread">
+              <Box cursor="pointer" onClick={onDeleteTweet}>
+                <BiTrashAlt width="20px" height="20px" color="red.400" />
+              </Box>
+            </Tooltip>
+          </Flex>
         </Box>
       </Flex>
     </Box>
