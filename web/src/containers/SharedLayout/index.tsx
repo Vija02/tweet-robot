@@ -27,8 +27,10 @@ export default function SharedLayout() {
           Drafts
         </Text>
         {data?.map((d, i) => {
+          const isEmptyText = d.data[0].text === ""
+
           const id = d.id;
-          const bodyText = d.data[0].text !== "" ? d.data[0].text : "<Empty>";
+          const bodyText = !isEmptyText ? d.data[0].text : "<Empty>";
 
           return (
             <CustomLink to={`/drafts/${id}`} key={i}>
@@ -41,7 +43,8 @@ export default function SharedLayout() {
                   borderBottom="1px solid"
                   borderColor="gray.800"
                 >
-                  <Text>{bodyText}</Text>
+                  <Text
+                  color={!isEmptyText ? "primary": "secondary"}>{bodyText}</Text>
                 </Box>
               )}
             </CustomLink>
