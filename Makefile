@@ -6,3 +6,6 @@ core-dev:
 
 web-dev:
 	cd web &&	yarn dev
+
+web-install: 
+	cd web && yarn
