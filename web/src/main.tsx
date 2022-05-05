@@ -3,6 +3,7 @@ import { UserProvider } from "contexts/User";
 import React from "react";
 import { useState } from "react";
 import ReactDOM from "react-dom/client";
+import "react-next-dates/dist/style.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 
