@@ -27,6 +27,7 @@ export default function DraftsIndex() {
   return (
     <MainDraftBody
       key={JSON.stringify(tweets.id)}
+      draftId={tweets.id}
       initialTweets={tweets.data}
       onUpdate={(tweets) => {
         if (tweets.length === 0) {
